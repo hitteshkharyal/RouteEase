@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" href="{{ url_for('static', filename='images/logo1.png') }}" type="image/x-icon">
+
+    <title>RouteEase</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('{{ url_for("static", filename="images/pexels-pixabay-531880.jpg") }}') no-repeat center center/cover;
+            margin: 0;
+            color: #fff;
+            min-height: 100vh;
+            overflow: auto; /* Enable scrolling */
+        }
+
+        .container {
+            max-width: 700px;
+            margin:auto;
+            margin-top:4px;
+            margin-bottom:20px;
+        }
+
+        .card {
+            background: rgba(0, 0, 0, 0.85);
+            border: 1px solid #28a745;
+            color: #fff;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #28a745;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        label {
+            font-size: 18px;
+            color: #ccc;
+        }
+
+        input {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid #28a745;
+            padding: 12px;
+            width: 100%;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+ .one {
+    background-image: url('{{ url_for("static", filename="images/pexels-pixabay-531880.jpg") }}');
+    background-size: cover;
+    -webkit-background-clip: text;  /* Clip background to text */
+    -webkit-text-fill-color: transparent;  /* Make text transparent */
+    font-size: 28px;  /* Increase size for better visibility */
+    font-weight: bold;
+    text-align: center;
+}
+        input:focus {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid #218838;
+            box-shadow: 0 0 10px rgba(40, 167, 69, 0.7);
+        }
+
+        input::placeholder {
+            color: #bbb;
+        }
+
+        .btn-primary {
+            background: #28a745;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: #218838;
+        }
+
+        /* Floating images directly below the form with only 3px gap */
+        .floating-wrapper {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            margin-top: 0px;  /* Reduced gap between form and floating images */
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .floating-image {
+            position: absolute;
+            bottom: 0;
+            width: 200px;
+            height: 200px;
+            opacity: 0.85;
+            animation: floatLeftToRight 20s linear infinite;
+            border-radius: 10%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .image1 { left: -200px; animation-delay: 0s; }
+        .image2 { left: -200px; animation-delay: 4s; }
+        .image3 { left: -200px; animation-delay: 8s; }
+        .image4 { left: -200px; animation-delay: 12s; }
+        .image5 { left: -200px; animation-delay: 16s; }
+
+        @keyframes floatLeftToRight {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(110vw);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+            }
+
+            .floating-image {
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        .footer {
+    text-align: center;
+    margin-top: 20px;
+    color: #f4f4f4;  /* Light color for contrast */
+    font-size: 18px;  /* Increased text size */
+    background: #000;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.4);
+    border-radius: 12px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;  /* Modern, readable font */
+}
+.footer a {
+    color: #f4f4f4;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+.footer a:hover {
+    color: #007BFF;  /* Link color changes on hover */
+}
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card p-4">
+        <h1><img src="{{ url_for('static', filename='images/logo2.png') }}" alt="RouteNest Logo" class="logo" height="60px" width="100px" style="opacity=0.5">  Enter Your Cities</h1>
+
+        <form method="POST" class="needs-validation" novalidate>
+            <div class="row g-2">
+
+                {% for i in range(1, num_cities + 1) %}
+                <div class="col-12">
+                    <label for="city{{ i }}" class="form-label">City {{ i }}</label>
+                    <input
+                        type="text"
+                        id="city{{ i }}"
+                        name="city{{ i }}"
+                        class="form-control"
+                        placeholder="Enter city name"
+                        required
+                    >
+                    <div class="invalid-feedback">Please enter a city name.</div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-4">Find Route</button>
+        </form>
+    </div>
+</div>
+<br>
+<!-- Floating Images with 3px gap -->
+<div class="floating-wrapper">
+    <img src="{{ url_for('static', filename='images/MANALI.jpg') }}" alt="Floating Image" class="floating-image image1">
+    <img src="{{ url_for('static', filename='images/gulmarg.jpg') }}" alt="Floating Image" class="floating-image image2">
+    <img src="{{ url_for('static', filename='images/SRINAGAR.jpg') }}" alt="Floating Image" class="floating-image image3">
+    <img src="{{ url_for('static', filename='images/leh.jpg') }}" alt="Floating Image" class="floating-image image4">
+    <img src="{{ url_for('static', filename='images/vanaras.jpg') }}" alt="Floating Image" class="floating-image image5">
+</div><br>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Enable Bootstrap form validation
+    (() => {
+        'use strict';
+        const forms = document.querySelectorAll('.needs-validation');
+
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+</script>
+<div class="footer">
+    <p class="one">Author: Hitesh | Contact: 7876586478 |
+    <a href="mailto:hiteshkharyal@gmail.com" style="color: #f4f4f4; text-decoration: none;">Email: hiteshkharyal@gmail.com</a></p>
+</div>
+
+</body>
+</html>

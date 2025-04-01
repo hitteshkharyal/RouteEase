@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_9274de82ef1a9b177ecd28be73ff2e0e {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_9274de82ef1a9b177ecd28be73ff2e0e" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_9274de82ef1a9b177ecd28be73ff2e0e = L.map(
+                "map_9274de82ef1a9b177ecd28be73ff2e0e",
+                {
+                    center: [38.8950368, -77.0365427],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 6,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_f0b0285dd1e95297fb276c7d69352066 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_f0b0285dd1e95297fb276c7d69352066.addTo(map_9274de82ef1a9b177ecd28be73ff2e0e);
+        
+    
+            var marker_e6e42e527c1f5c7d6b61a27fc5035bf9 = L.marker(
+                [38.8950368, -77.0365427],
+                {
+}
+            ).addTo(map_9274de82ef1a9b177ecd28be73ff2e0e);
+        
+    
+            var icon_7e33f30b48943dd07bf7043bf3658faa = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_e6e42e527c1f5c7d6b61a27fc5035bf9.setIcon(icon_7e33f30b48943dd07bf7043bf3658faa);
+        
+    
+        var popup_a88cc9e098ef9778a79a69e1e288acaa = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_acada61c8e0695f108fea753e3783bb0 = $(`<div id="html_acada61c8e0695f108fea753e3783bb0" style="width: 100.0%; height: 100.0%;">washington dc</div>`)[0];
+                popup_a88cc9e098ef9778a79a69e1e288acaa.setContent(html_acada61c8e0695f108fea753e3783bb0);
+            
+        
+
+        marker_e6e42e527c1f5c7d6b61a27fc5035bf9.bindPopup(popup_a88cc9e098ef9778a79a69e1e288acaa)
+        ;
+
+        
+    
+    
+            var marker_2a7b47196aee32a40d42adb51fd2cee6 = L.marker(
+                [30.7334421, 76.7797143],
+                {
+}
+            ).addTo(map_9274de82ef1a9b177ecd28be73ff2e0e);
+        
+    
+            var icon_28537199c974f82dbe938894e31f5eeb = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_2a7b47196aee32a40d42adb51fd2cee6.setIcon(icon_28537199c974f82dbe938894e31f5eeb);
+        
+    
+        var popup_cb652db4215de528230ccf790a92e9d9 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_44ec61e63e67a50c6a6b1e5cf5041266 = $(`<div id="html_44ec61e63e67a50c6a6b1e5cf5041266" style="width: 100.0%; height: 100.0%;">Chandigarh, India</div>`)[0];
+                popup_cb652db4215de528230ccf790a92e9d9.setContent(html_44ec61e63e67a50c6a6b1e5cf5041266);
+            
+        
+
+        marker_2a7b47196aee32a40d42adb51fd2cee6.bindPopup(popup_cb652db4215de528230ccf790a92e9d9)
+        ;
+
+        
+    
+    
+            var marker_76c8d42e620bcb41be3fa727c8d3bd68 = L.marker(
+                [28.6273928, 77.1716954],
+                {
+}
+            ).addTo(map_9274de82ef1a9b177ecd28be73ff2e0e);
+        
+    
+            var icon_267231d0ff55a1a5da49b6aa750df977 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_76c8d42e620bcb41be3fa727c8d3bd68.setIcon(icon_267231d0ff55a1a5da49b6aa750df977);
+        
+    
+        var popup_3ed245e106972862dca39a986c13e666 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7a7a2334be1526e392522e90a86dcbc9 = $(`<div id="html_7a7a2334be1526e392522e90a86dcbc9" style="width: 100.0%; height: 100.0%;">Delhi, India</div>`)[0];
+                popup_3ed245e106972862dca39a986c13e666.setContent(html_7a7a2334be1526e392522e90a86dcbc9);
+            
+        
+
+        marker_76c8d42e620bcb41be3fa727c8d3bd68.bindPopup(popup_3ed245e106972862dca39a986c13e666)
+        ;
+
+        
+    
+    
+            var poly_line_1541571dddc8f083138ae728148d7841 = L.polyline(
+                [[38.8950368, -77.0365427], [30.7334421, 76.7797143]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_9274de82ef1a9b177ecd28be73ff2e0e);
+        
+    
+            poly_line_1541571dddc8f083138ae728148d7841.bindTooltip(
+                `<div>
+                     washington dc ↔ Chandigarh, India: 9751.76 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_02aad7805fc90b0fcc294ca1b2ea58e4 = L.polyline(
+                [[30.7334421, 76.7797143], [28.6273928, 77.1716954]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_9274de82ef1a9b177ecd28be73ff2e0e);
+        
+    
+            poly_line_02aad7805fc90b0fcc294ca1b2ea58e4.bindTooltip(
+                `<div>
+                     Chandigarh, India ↔ Delhi, India: 251.59 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+</script>
+</html>
