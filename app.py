@@ -1,20 +1,18 @@
+# Held-Karp TSP with memoization
 from flask import Flask, render_template, request, redirect, url_for, session
 import networkx as nx
 import folium
 from geopy.geocoders import Nominatim
 import requests
-from itertools import permutations
 import os
+from functools import lru_cache
 
 app = Flask(__name__)
-app.secret_key = "your_secret_key"  # Required for using Flask session
+app.secret_key = "your_secret_key"
 
-# Ensure static folder exists
 if not os.path.exists('static'):
     os.makedirs('static')
 
-
-# Function to get latitude and longitude of a city
 def get_location(name):
     geolocator = Nominatim(user_agent="geoapi")
     location = geolocator.geocode(name)
@@ -22,8 +20,6 @@ def get_location(name):
         return (location.latitude, location.longitude)
     return None
 
-
-# Function to get the distance between two cities
 def get_distance(origin, destination):
     api_url = "https://router.project-osrm.org/route/v1/driving/{},{};{},{}?overview=false"
     origin_coords = get_location(origin)
@@ -32,56 +28,53 @@ def get_distance(origin, destination):
     if origin_coords and destination_coords:
         url = api_url.format(origin_coords[1], origin_coords[0], destination_coords[1], destination_coords[0])
         response = requests.get(url).json()
-
         if "routes" in response and response["routes"]:
-            return response["routes"][0]["distance"] / 1000  # Convert meters to kilometers
+            return response["routes"][0]["distance"] / 1000
     return float('inf')
 
+def held_karp(graph, cities):
+    n = len(cities)
+    index_map = {city: idx for idx, city in enumerate(cities)}
 
-# Function to find the shortest overall route using TSP
-def find_shortest_overall_route(graph, cities):
-    best_route = None
-    min_distance = float('inf')
-    node_distances = []
+    @lru_cache(maxsize=None)
+    def tsp(mask, pos):
+        if mask == (1 << n) - 1:
+            return graph[cities[pos]][cities[0]]['weight']
 
-    for route in permutations(cities):
-        total_distance = 0
-        valid_route = True
-        path_distances = []
+        ans = float('inf')
+        for city in range(n):
+            if mask & (1 << city) == 0:
+                ans = min(ans, graph[cities[pos]][cities[city]]['weight'] + tsp(mask | (1 << city), city))
+        return ans
 
-        for i in range(len(route) - 1):
-            if graph.has_edge(route[i], route[i + 1]):
-                dist = graph[route[i]][route[i + 1]]['weight']
-                total_distance += dist
-                path_distances.append((route[i], route[i + 1], dist))
-            else:
-                valid_route = False
-                break
+    @lru_cache(maxsize=None)
+    def find_path(mask, pos):
+        if mask == (1 << n) - 1:
+            return [cities[pos], cities[0]]
+        best = float('inf')
+        best_city = -1
+        for city in range(n):
+            if mask & (1 << city) == 0:
+                cost = graph[cities[pos]][cities[city]]['weight'] + tsp(mask | (1 << city), city)
+                if cost < best:
+                    best = cost
+                    best_city = city
+        return [cities[pos]] + find_path(mask | (1 << best_city), best_city)
 
-        if valid_route and total_distance < min_distance:
-            min_distance = total_distance
-            best_route = route
-            node_distances = path_distances
-
+    min_distance = tsp(1, 0)
+    best_route = find_path(1, 0)
+    node_distances = [(best_route[i], best_route[i+1], graph[best_route[i]][best_route[i+1]]['weight']) for i in range(n)]
     return best_route, min_distance, node_distances
 
-
-# Function to visualize the optimal route
 def visualize_route(graph, path, locations, node_distances):
     start_coords = locations[path[0]]
     m = folium.Map(location=start_coords, zoom_start=6)
-
-    # Add markers for each city
     for node in path:
         folium.Marker(location=locations[node], popup=node, icon=folium.Icon(color='blue')).add_to(m)
-
-    # Draw lines with distances
     for city1, city2, distance in node_distances:
         folium.PolyLine([locations[city1], locations[city2]], color='red', weight=3,
                         tooltip=f"{city1} ↔ {city2}: {distance:.2f} km").add_to(m)
-
     return m
-
 
 @app.route('/', methods=['GET', 'POST'])
 def select_cities():
@@ -90,21 +83,17 @@ def select_cities():
         return redirect(url_for('enter_cities', num_cities=num_cities))
     return render_template('select_cities.html')
 
-
 @app.route('/enter_cities/<int:num_cities>', methods=['GET', 'POST'])
 def enter_cities(num_cities):
     if request.method == 'POST':
         cities = [request.form[f'city{i}'] for i in range(1, num_cities + 1)]
-
         city_graph = nx.Graph()
         locations = {city: get_location(city) for city in cities}
 
-        # Add nodes to the graph
         for city, coords in locations.items():
             if coords:
                 city_graph.add_node(city)
 
-        # Add all possible edges with distances
         for i in range(len(cities)):
             for j in range(i + 1, len(cities)):
                 city1, city2 = cities[i], cities[j]
@@ -113,17 +102,13 @@ def enter_cities(num_cities):
                     if distance:
                         city_graph.add_weighted_edges_from([(city1, city2, distance)])
 
-        # Find the optimal route
         if len(city_graph.nodes) == len(cities):
-            best_route, min_distance, node_distances = find_shortest_overall_route(city_graph, cities)
-
+            best_route, min_distance, node_distances = held_karp(city_graph, cities)
             if best_route:
-                # Generate map and save it
                 route_map = visualize_route(city_graph, best_route, locations, node_distances)
                 map_path = "static/route_map.html"
                 route_map.save(map_path)
 
-                # Store results in session
                 session['path'] = best_route
                 session['min_distance'] = min_distance
                 session['node_distances'] = node_distances
@@ -136,8 +121,6 @@ def enter_cities(num_cities):
 
     return render_template('enter_cities.html', num_cities=num_cities)
 
-
-# Route to display the map
 @app.route('/map')
 def show_map():
     if 'path' in session:
@@ -156,6 +139,6 @@ def show_map():
     else:
         return "No map data available. Please run the route finder first."
 
-
 if __name__ == '__main__':
     app.run(debug=True)
+
