@@ -110,15 +110,17 @@ left:25%; opacity:1">
     <h1 class="mb-4">🚗 Plan Your Optimal Route</h1>
 
     <!-- Form Section -->
-    <form method="POST">
-        <div class="mb-3">
-            <label for="num_cities" class="form-label">Enter the number of cities you want to visit:</label>
-            <input type="number" id="num_cities" name="num_cities" min="2" class="form-control" placeholder="e.g., 4" required>
-        </div>
-        <div class="text-center">
-            <button type="submit" class="btn btn-primary">Next →</button>
-        </div>
-    </form>
+    <form method="POST" >
+    <div class="mb-3">
+        <label for="num_cities" class="form-label">Enter the number of cities you want to visit:</label>
+        <input type="number" id="num_cities" name="num_cities" min="3" class="form-control" placeholder="e.g., 4" required>
+        <small class="text-light">* Minimum 3 cities required to generate an optimal route.</small>
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary">Next →</button>
+    </div>
+</form>
+
 
     <!-- Information Section -->
     <div class="info-section mt-5">
