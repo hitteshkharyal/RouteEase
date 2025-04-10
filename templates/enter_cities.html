@@ -3,24 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" href="{{ url_for('static', filename='images/logo1.png') }}" type="image/x-icon">
+
     <title>RouteEase</title>
-     <link rel="icon" href="{{ url_for('static', filename='images/logo1.png') }}" type="image/x-icon">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script>
+    function validateCityNames() {
+        const inputs = document.querySelectorAll('.city-input');
+        const cityNames = [];
+
+        for (let input of inputs) {
+            const city = input.value.trim().toUpperCase();
+            if (!/^[A-Z0-9 ]+$/.test(city)) {
+                alert("City names can only contain alphabets, numbers, and spaces: " + city);
+                return false;
+            }
+            if (cityNames.includes(city)) {
+                alert("City names must be unique. You entered a duplicate: " + city);
+                return false;
+            }
+            cityNames.push(city);
+        }
+        return true;
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const inputs = document.querySelectorAll('.city-input');
+        inputs.forEach(input => {
+            // Convert to uppercase as user types
+            input.addEventListener('input', () => {
+                input.value = input.value.toUpperCase();
+
+                // Remove invalid characters in real time (allowing A-Z, 0-9, and spaces)
+                input.value = input.value.replace(/[^A-Z0-9 ]/g, '');
+            });
+        });
+    });
+</script>
+
+
 
     <style>
-        /* Custom Styling */
         body {
             font-family: Arial, sans-serif;
-            background-image: url('{{ url_for("static", filename="images/pexels-pixabay-531880.jpg") }}');
-            background-size: cover;
-            background-position: center;
-            min-height: 100vh;
+            background: url('{{ url_for("static", filename="images/pexels-pixabay-531880.jpg") }}') no-repeat center center/cover;
             margin: 0;
             color: #fff;
+            min-height: 100vh;
+            overflow: auto; /* Enable scrolling */
         }
-.one {
+
+        .container {
+            max-width: 700px;
+            margin:auto;
+            margin-top:4px;
+            margin-bottom:20px;
+        }
+
+        .card {
+            background: rgba(0, 0, 0, 0.85);
+            border: 1px solid #28a745;
+            color: #fff;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #28a745;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        label {
+            font-size: 18px;
+            color: #ccc;
+        }
+
+        input {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid #28a745;
+            padding: 12px;
+            width: 100%;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+ .one {
     background-image: url('{{ url_for("static", filename="images/pexels-pixabay-531880.jpg") }}');
     background-size: cover;
     -webkit-background-clip: text;  /* Clip background to text */
@@ -29,25 +101,22 @@
     font-weight: bold;
     text-align: center;
 }
-        .container {
-            max-width: 800px;
-            margin: 60px auto;
-            padding: 40px;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
-        }
-        h1, h2, p {
-            text-align: center;
+        input:focus {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid #218838;
+            box-shadow: 0 0 10px rgba(40, 167, 69, 0.7);
         }
 
-        label {
-            font-size: 18px;
+        input::placeholder {
+            color: #bbb;
         }
 
         .btn-primary {
             background: #28a745;
             border: none;
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
             transition: 0.3s;
         }
 
@@ -55,27 +124,51 @@
             background: #218838;
         }
 
-        .info-section {
-            margin-top: 40px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
+        /* Floating images directly below the form with only 3px gap */
+        .floating-wrapper {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            margin-top: 0px;  /* Reduced gap between form and floating images */
+            overflow: hidden;
+            z-index: -1;
         }
 
-        .info-section h2 {
-            font-size: 28px;
-            color: #4CAF50;
+        .floating-image {
+            position: absolute;
+            bottom: 0;
+            width: 200px;
+            height: 200px;
+            opacity: 0.85;
+            animation: floatLeftToRight 20s linear infinite;
+            border-radius: 10%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
 
-        .info-section p {
-            font-size: 18px;
+        .image1 { left: -200px; animation-delay: 0s; }
+        .image2 { left: -200px; animation-delay: 4s; }
+        .image3 { left: -200px; animation-delay: 8s; }
+        .image4 { left: -200px; animation-delay: 12s; }
+        .image5 { left: -200px; animation-delay: 16s; }
+
+        @keyframes floatLeftToRight {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(110vw);
+            }
         }
 
-        /* Responsive Styling */
+        /* Responsive Design */
         @media (max-width: 768px) {
             .container {
                 width: 90%;
-                padding: 30px;
+            }
+
+            .floating-image {
+                width: 100px;
+                height: 100px;
             }
         }
 
@@ -105,50 +198,68 @@
 <body>
 
 <div class="container">
-      <img src="{{ url_for('static', filename='images/logo2.png') }}" alt="RouteNest Logo" class="logo img-fluid " style="position:relative;
-left:25%; opacity:1">
-    <h1 class="mb-4">🚗 Plan Your Optimal Route</h1>
 
-    <!-- Form Section -->
-    <form method="POST" >
-    <div class="mb-3">
-        <label for="num_cities" class="form-label">Enter the number of cities you want to visit:</label>
-        <input type="number" id="num_cities" name="num_cities" min="3" class="form-control" placeholder="e.g., 4" required>
-        <small class="text-light">* Minimum 3 cities required to generate an optimal route.</small>
+    <div class="card p-4">
+        <h1><img src="{{ url_for('static', filename='images/logo2.png') }}" alt="RouteNest Logo" class="logo" height="60px" width="100px" style="opacity=0.5">  Enter Your Cities</h1>
+
+        <form method="POST" class="needs-validation" novalidate onsubmit="return validateCityNames()">
+    <div class="row g-2">
+        {% for i in range(1, num_cities + 1) %}
+        <div class="col-12">
+            <label for="city{{ i }}" class="form-label">
+                {% if i == 1 %}Source City{% else %}City {{ i }}{% endif %}
+            </label>
+            <input
+                type="text"
+                id="city{{ i }}"
+                name="city{{ i }}"
+                class="form-control city-input"
+                placeholder="Enter city name"
+                required
+            >
+            <div class="invalid-feedback">Please enter a city name.</div>
+        </div>
+        {% endfor %}
     </div>
-    <div class="text-center">
-        <button type="submit" class="btn btn-primary">Next →</button>
-    </div>
+    <button type="submit" class="btn btn-primary mt-4">Find Route</button>
 </form>
 
-
-    <!-- Information Section -->
-    <div class="info-section mt-5">
-        <h2>🛤️ How RouteEase Helps You</h2>
-        <p>
-            RouteEase helps you plan the most efficient travel route between multiple cities.
-            By entering the cities you want to visit, the app calculates the optimal route
-            using advanced algorithms like the **Traveling Salesman Problem (TSP)** solution.
-        </p>
-        <p>
-            You can visualize the path on an interactive map, view the total distance,
-            and see the distance between each pair of cities. This is perfect for:
-        </p>
-        <ul>
-            <li>🏞️ Road trips and vacation planning</li>
-            <li>🚚 Logistics and delivery routes</li>
-            <li>🚀 Efficient travel planning</li>
-        </ul>
-        <p>Get started by entering the number of cities above!</p>
     </div>
 </div>
+<br>
+<!-- Floating Images with 3px gap -->
+<div class="floating-wrapper">
+    <img src="{{ url_for('static', filename='images/MANALI.jpg') }}" alt="Floating Image" class="floating-image image1">
+    <img src="{{ url_for('static', filename='images/gulmarg.jpg') }}" alt="Floating Image" class="floating-image image2">
+    <img src="{{ url_for('static', filename='images/SRINAGAR.jpg') }}" alt="Floating Image" class="floating-image image3">
+    <img src="{{ url_for('static', filename='images/leh.jpg') }}" alt="Floating Image" class="floating-image image4">
+    <img src="{{ url_for('static', filename='images/vanaras.jpg') }}" alt="Floating Image" class="floating-image image5">
+</div><br>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Enable Bootstrap form validation
+    (() => {
+        'use strict';
+        const forms = document.querySelectorAll('.needs-validation');
+
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+</script>
 <div class="footer">
     <p class="one">Author: Hitesh | Contact: 7876586478 |
     <a href="mailto:hiteshkharyal@gmail.com" style="color: #f4f4f4; text-decoration: none;">Email: hiteshkharyal@gmail.com</a></p>
 </div>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
